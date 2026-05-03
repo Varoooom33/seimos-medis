@@ -5,8 +5,6 @@ import ReactFlow, {
   Node,
   Edge,
   Background,
-  Controls,
-  MiniMap,
   useNodesState,
   useEdgesState,
   addEdge,
@@ -139,10 +137,9 @@ export default function FamilyTreeClient({ initialPeople, initialRelationships }
         nodeTypes={nodeTypes}
         fitView
         fitViewOptions={{ padding: 0.3 }}
+        proOptions={{ hideAttribution: true }}
       >
         <Background color="#d6d3d1" gap={24} />
-        <Controls />
-        <MiniMap nodeStrokeWidth={3} zoomable pannable />
       </ReactFlow>
 
       <button

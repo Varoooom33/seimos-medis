@@ -117,6 +117,16 @@ export default function PersonModal({
 
   async function addRelationship() {
     if (!relPersonId) return
+
+    const alreadyExists = myRelationships.some(r =>
+      (r.person_a_id === person.id && r.person_b_id === relPersonId) ||
+      (r.person_a_id === relPersonId && r.person_b_id === person.id)
+    )
+    if (alreadyExists) {
+      alert('Šis ryšys jau egzistuoja.')
+      return
+    }
+
     let person_a_id = person.id
     let person_b_id = relPersonId
     if (relType === 'parent_child' && relDirection === 'child') {
@@ -211,12 +221,12 @@ export default function PersonModal({
                   {form.photo_url ? (
                     <img src={form.photo_url} alt="" className="w-14 h-14 rounded-full object-cover" />
                   ) : (
-                    <div className="w-14 h-14 rounded-full bg-stone-100 flex items-center justify-center text-stone-400 text-xs">Nėra</div>
+                    <div className="w-14 h-14 rounded-full bg-stone-200 flex items-center justify-center text-stone-600 text-xs font-medium">Nėra</div>
                   )}
                   <div className="flex flex-col gap-1">
                     <button type="button" onClick={() => photoInputRef.current?.click()}
                       disabled={photoUploading}
-                      className="text-sm px-3 py-1.5 border border-stone-300 rounded-lg hover:bg-stone-50 disabled:opacity-50">
+                      className="text-sm px-3 py-1.5 border border-stone-300 rounded-lg text-stone-700 font-medium hover:bg-stone-50 disabled:opacity-50">
                       {photoUploading ? 'Įkeliama…' : 'Įkelti nuotrauką'}
                     </button>
                     {form.photo_url && (
