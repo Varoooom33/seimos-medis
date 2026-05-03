@@ -8,6 +8,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
+  const [signupCode, setSignupCode] = useState('')
   const [mode, setMode] = useState<'login' | 'signup'>('login')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -25,13 +26,18 @@ export default function LoginPage() {
       if (error) setError(error.message)
       else router.push('/tree')
     } else {
+      if (signupCode !== process.env.NEXT_PUBLIC_SIGNUP_CODE) {
+        setError('Neteisingas šeimos kodas.')
+        setLoading(false)
+        return
+      }
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { display_name: displayName || email.split('@')[0] } },
       })
       if (error) setError(error.message)
-      else setMessage('Patikrinkite el. paštą – išsiuntėme patvirtinimo nuorodą.')
+      else router.push('/tree')
     }
     setLoading(false)
   }
@@ -142,16 +148,29 @@ export default function LoginPage() {
             </div>
 
             {mode === 'signup' && (
-              <div>
-                <label className="block text-sm font-medium text-stone-800 mb-1.5">Vardas</label>
-                <input
-                  type="text"
-                  value={displayName}
-                  onChange={e => setDisplayName(e.target.value)}
-                  placeholder="Kaip jus vadinti?"
-                  className="w-full border border-stone-300 rounded-xl px-4 py-2.5 text-sm text-stone-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-colors placeholder:text-stone-400"
-                />
-              </div>
+              <>
+                <div>
+                  <label className="block text-sm font-medium text-stone-800 mb-1.5">Vardas</label>
+                  <input
+                    type="text"
+                    value={displayName}
+                    onChange={e => setDisplayName(e.target.value)}
+                    placeholder="Kaip jus vadinti?"
+                    className="w-full border border-stone-300 rounded-xl px-4 py-2.5 text-sm text-stone-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-colors placeholder:text-stone-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-stone-800 mb-1.5">Šeimos kodas</label>
+                  <input
+                    type="password"
+                    value={signupCode}
+                    onChange={e => setSignupCode(e.target.value)}
+                    placeholder="Paklauskite šeimos nario"
+                    required
+                    className="w-full border border-stone-300 rounded-xl px-4 py-2.5 text-sm text-stone-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-colors placeholder:text-stone-400"
+                  />
+                </div>
+              </>
             )}
 
             {error && (

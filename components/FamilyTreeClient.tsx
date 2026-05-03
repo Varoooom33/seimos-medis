@@ -91,6 +91,12 @@ export default function FamilyTreeClient({ initialPeople, initialRelationships }
     setSelectedPerson(updated)
   }
 
+  function handlePersonDeleted(id: string) {
+    setPeople(prev => prev.filter(p => p.id !== id))
+    setRelationships(prev => prev.filter(r => r.person_a_id !== id && r.person_b_id !== id))
+    setSelectedPerson(null)
+  }
+
   function handlePersonAdded(person: Person) {
     setPeople(prev => [...prev, person])
   }
@@ -153,6 +159,7 @@ export default function FamilyTreeClient({ initialPeople, initialRelationships }
           relationships={relationships}
           onClose={() => setSelectedPerson(null)}
           onPersonUpdated={handlePersonUpdated}
+          onPersonDeleted={handlePersonDeleted}
           onRelationshipAdded={handleRelationshipAdded}
         />
       )}
