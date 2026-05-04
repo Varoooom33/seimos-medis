@@ -23,7 +23,7 @@ export default function PersonModal({
   const [sources, setSources] = useState<Source[]>([])
   const [sourcesLoaded, setSourcesLoaded] = useState(false)
   const [newSource, setNewSource] = useState({ title: '', description: '', url: '' })
-  const [relType, setRelType] = useState<'parent_child' | 'partner'>('parent_child')
+  const [relType, setRelType] = useState<'parent_child' | 'partner' | 'sibling'>('parent_child')
   const [relDirection, setRelDirection] = useState<'parent' | 'child'>('parent')
   const [relPersonId, setRelPersonId] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -310,6 +310,7 @@ export default function PersonModal({
                   {myRelationships.map(r => {
                     const otherId = r.person_a_id === person.id ? r.person_b_id : r.person_a_id
                     const label = r.relationship_type === 'partner' ? 'Partneris'
+                      : r.relationship_type === 'sibling' ? 'Brolis/Sesuo'
                       : r.person_a_id === person.id ? 'Tėvas/motina' : 'Vaikas'
                     return (
                       <li key={r.id} className="text-sm flex gap-2">
@@ -331,10 +332,11 @@ export default function PersonModal({
                     ))}
                   </select>
                   <div className="flex gap-2">
-                    <select value={relType} onChange={e => setRelType(e.target.value as 'parent_child' | 'partner')}
+                    <select value={relType} onChange={e => setRelType(e.target.value as 'parent_child' | 'partner' | 'sibling')}
                       className="flex-1 border border-stone-300 rounded-lg px-3 py-2 text-sm text-stone-900">
                       <option value="parent_child">Tėvas / Vaikas</option>
                       <option value="partner">Partneris</option>
+                      <option value="sibling">Brolis / Sesuo</option>
                     </select>
                     {relType === 'parent_child' && (
                       <select value={relDirection} onChange={e => setRelDirection(e.target.value as 'parent' | 'child')}

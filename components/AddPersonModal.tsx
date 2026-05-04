@@ -19,7 +19,7 @@ export default function AddPersonModal({ people, onClose, onPersonAdded, onRelat
     bio: '',
   })
   const [relPersonId, setRelPersonId] = useState('')
-  const [relType, setRelType] = useState<'parent_child' | 'partner'>('parent_child')
+  const [relType, setRelType] = useState<'parent_child' | 'partner' | 'sibling'>('parent_child')
   const [relDirection, setRelDirection] = useState<'parent' | 'child'>('parent')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -142,11 +142,12 @@ export default function AddPersonModal({ people, onClose, onPersonAdded, onRelat
                 <div className="flex gap-2">
                   <select
                     value={relType}
-                    onChange={e => setRelType(e.target.value as 'parent_child' | 'partner')}
+                    onChange={e => setRelType(e.target.value as 'parent_child' | 'partner' | 'sibling')}
                     className="flex-1 border border-stone-300 rounded-lg px-3 py-2 text-sm text-stone-900 bg-white"
                   >
                     <option value="parent_child">Tėvas / Vaikas</option>
                     <option value="partner">Partneris</option>
+                    <option value="sibling">Brolis / Sesuo</option>
                   </select>
                   {relType === 'parent_child' && (
                     <select

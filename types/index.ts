@@ -19,7 +19,7 @@ export interface Relationship {
   id: string
   person_a_id: string
   person_b_id: string
-  relationship_type: 'parent_child' | 'partner'
+  relationship_type: 'parent_child' | 'partner' | 'sibling'
   created_at: string
 }
 
