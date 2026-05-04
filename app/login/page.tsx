@@ -109,7 +109,6 @@ export default function LoginPage() {
 
           <div className="lg:hidden text-center mb-10">
             <h1 className="text-3xl font-bold text-stone-900">Šeimos medis</h1>
-            <p className="text-stone-500 mt-1 text-sm">Šeimos genealogija</p>
           </div>
 
           <div className="mb-8">
