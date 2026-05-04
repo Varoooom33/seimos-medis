@@ -21,6 +21,15 @@ export default function LoginPage() {
     setError('')
     setMessage('')
     setLoading(true)
+
+    // Clear any stale session that could cause header encoding errors
+    try {
+      // Wipe Supabase keys from localStorage to remove any corrupted tokens
+      Object.keys(localStorage).forEach(k => {
+        if (k.startsWith('sb-') || k.includes('supabase')) localStorage.removeItem(k)
+      })
+    } catch {}
+
     if (mode === 'login') {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) setError(error.message)
